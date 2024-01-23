@@ -24,11 +24,11 @@ const View = (props) => {
     const [data, setDataList] = useState([]);
   
     useEffect(() => {
-      // 외부에서 데이터를 가져오기 위한 비동기 함수
+
       const fetchData = async () => {
         try {
           const res = await axios.get('/api/users');
-          setDataList(res.data); // 데이터를 받아와 상태를 업데이트
+          setDataList(res.data);
         } catch (error) {
           console.log(error);
         }
