@@ -17,7 +17,6 @@ class List extends React.Component {
 
   render() {
     const w_timestamp = this.w_timestamp(this.props.w_time);
-
     return (
       <TableRow>
         <TableCell style={{ textAlign: 'center' }}>{this.props.num}</TableCell>

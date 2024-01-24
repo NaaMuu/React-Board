@@ -55,7 +55,7 @@ const View = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <Link to="/"><Button variant="contained" color="primary">수정</Button></Link>
+            <Link to={`/Edit/${postData.num}`}><Button variant="contained" color="primary">수정</Button></Link>
             <Link to="/"><Button variant="outlined" color="primary">취소</Button></Link>
           </TableBody>
         </Table>

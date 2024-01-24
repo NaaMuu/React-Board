@@ -49,6 +49,18 @@ app.post('/api/users', (req, res) => {
   });
 });
 
+app.patch('/api/users/:num', (req, res) => {
+  const num = req.params.num;
+  const newData = req.body;
+  pool.query('UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?', [newData.title, newData.content, num], (err, results) => {
+    if (err) {
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 // // pool 대신 connection을 사용했을 경우

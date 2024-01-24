@@ -16,19 +16,7 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
     margin: 'auto',
     overflowX: 'auto',
-  },
-  textField: {
-    width: '50%',
-  },
-  authorField: {
-    width: '20%',
-  },
-  contentField: {
-    width: '50%',
-  },
-  button: {
-    marginRight: theme.spacing(2),
-  },
+  }
 });
 
 class Write extends React.Component {
@@ -96,13 +84,13 @@ class Write extends React.Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TextField label="제목" type="text" name="title" value={this.state.title} onChange={this.handleValueChange} className={classes.textField} />
-                <TextField label="이름" type="text" name="author" value={this.state.author} onChange={this.handleValueChange} className={classes.authorField} />
-                <TextField label="내용" name="content" value={this.state.content} onChange={this.handleValueChange} multiline rows={10} className={classes.contentField} />
+                <TextField label="제목" type="text" name="title" value={this.state.title} onChange={this.handleValueChange} style={{width:'50%'}}/><br/>
+                <TextField label="이름" type="text" name="author" value={this.state.author} onChange={this.handleValueChange} style={{width:'20%'}}/><br/>
+                <TextField label="내용" name="content" value={this.state.content} onChange={this.handleValueChange} multiline rows={10} style={{width:'50%'}} /><br/>
               </TableRow>
             </TableHead>
             <TableBody>
-              <Button variant="contained" color="primary" onClick={this.handleFormSubmit} className={classes.button}>작성</Button>
+              <Button variant="contained" color="primary" onClick={this.handleFormSubmit}>작성</Button>
               <Link to="/">
                 <Button variant="outlined" color="primary">취소</Button>
               </Link>

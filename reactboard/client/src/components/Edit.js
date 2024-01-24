@@ -19,7 +19,7 @@ const styles = theme => ({
   }
 });
 
-const View = (props) => {
+const Edit = (props) => {
   const { num } = useParams();
   const [postData, setPostData] = useState({});
 
@@ -49,11 +49,11 @@ const View = (props) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TextField name="num" value={postData.num} readOnly /><br />
-              <TextField name="title" value={postData.title} readOnly /><br />
-              <TextField name="author" value={postData.author} readOnly /><br />
-              <TextField name="content" value={postData.content} readOnly /><br />
-              <TextField name="w_time" value={w_timestamp(postData.w_time)} readOnly /><br />
+              연번 : <TextField name="num" value={postData.num} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
+              작성자 : <TextField name="author" value={postData.author} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
+              게시일 : <TextField name="w_time" value={w_timestamp(postData.w_time)} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
+              새로운 제목 : <TextField name="title" value={postData.title} /><br />
+              새로운 내용 : <TextField name="content" value={postData.content} /><br />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -70,4 +70,4 @@ const View = (props) => {
   );
 }
 
-export default withStyles(styles)(View);
+export default withStyles(styles)(Edit);
