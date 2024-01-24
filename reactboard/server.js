@@ -5,13 +5,14 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const data = fs.readFileSync('./database.json');
 const conf = JSON.parse(data);
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
+  connectionLimit: 10,
   host: conf.host,
   port: conf.port,
   user: conf.user,
@@ -19,13 +20,10 @@ const connection = mysql.createConnection({
   database: conf.database
 });
 
-app.get('/api/users',(req, res) => {
-  connection.query(
-    "SELECT * FROM posts",
-    (err, rows, fields) => {
-      res.send(rows);
-    }
-  );
+app.get('/api/users', (req, res) => {
+  pool.query("SELECT * FROM posts", (err, rows, fields) => {
+    res.send(rows);
+  });
 });
 
 app.get('/api/users/:num', (req, res) => {
@@ -45,35 +43,4 @@ app.get('/api/users/:num', (req, res) => {
   });
 });
 
-
-const multer = require('multer');
-const storage = multer.memoryStorage();
-const upload =  multer({ storage: storage });
-// Write.js에서 Content-Type으로 application/json을 사용할 때,
-// 위 3줄을 지우고 app.post('/api/users', (req, res) => { 로 변경
-app.post('/api/users', upload.none(), (req, res) => {
-  let sql = 'INSERT INTO posts (title, author, content, w_time) VALUES (?, ?, ?, NOW())';
-  let title = req.body.title;
-  let author = req.body.author;
-  let content = req.body.content;
-  // console.log(title);
-  // console.log(content);
-  // console.log(author);
-  let params = [title, author, content];
-  connection.query(sql, params,
-    (err, rows, fields) => {
-      res.send(rows);
-    }
-    )
-})
-
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
-// app.get(`/api/users/${num}`,(req, res) => {
-//   connection.query(
-//     "SELECT * FROM posts WHERE num = ?", [num],
-//     (err, rows, fields) => {
-//       res.send(rows);
-//     }
-//   );
-// });

@@ -29,6 +29,25 @@ class Write extends React.Component {
         }
     }
 
+    handleValueChange = (e) => {
+        let nextState = {};
+        nextState[e.target.name] = e.target.value;
+        this.setState(nextState);
+    }
+
+    handleFormSubmit = (e) => {
+        e.preventDefault();
+        this.Writepost()
+            .then((response) => {
+                console.log(response.data);
+                alert('작성이 완료되었습니다.');
+                window.location.href = '/';
+            })
+            .catch((error) => {
+                console.error('Error during Writepost:', error);
+            });
+    }
+
     Writepost = () => {
         const url = '/api/users';
         const formData = new FormData();
@@ -57,25 +76,6 @@ class Write extends React.Component {
     //     };
     //     return axios.post(url, data, config);
     // }
-
-    handleValueChange = (e) => {
-        let nextState = {};
-        nextState[e.target.name] = e.target.value;
-        this.setState(nextState);
-    }
-
-    handleFormSubmit = (e) => {
-        e.preventDefault();
-        this.Writepost()
-            .then((response) => {
-                console.log(response.data);
-                alert('작성이 완료되었습니다.');
-                window.location.href = '/';
-            })
-            .catch((error) => {
-                console.error('Error during Writepost:', error);
-            });
-    }
 
     render(){
         const { classes } = this.props;

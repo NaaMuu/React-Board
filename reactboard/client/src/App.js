@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import List from './compontents/List';
-import WriteButton from './compontents/WriteButton';
+import List from './components/List';
+import WriteButton from './components/WriteButton';
 import './App.css';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
