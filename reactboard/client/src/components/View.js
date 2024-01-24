@@ -19,16 +19,6 @@ const styles = theme => ({
 });
 
 const View = (props) => {
-  const { num } = useParams();
-  const [postData, setPostData] = useState({});
-
-  useEffect(() => {
-    fetch(`/api/users/${num}`)
-      .then(response => response.json())
-      .then(data => setPostData(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, [num]);
-
   const w_timestamp = (timestamp) => {
     const dateObject = new Date(timestamp);
     return dateObject.toLocaleString('ko-KR', {
@@ -39,6 +29,16 @@ const View = (props) => {
       minute: '2-digit'
     });
   };
+  
+  const { num } = useParams();
+  const [postData, setPostData] = useState({});
+
+  useEffect(() => {
+    fetch(`/api/users/${num}`)
+      .then(response => response.json())
+      .then(data => setPostData(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, [num]);
 
   const { classes } = props;
   return (
