@@ -22,8 +22,8 @@ class List extends React.Component {
       <TableRow>
         <TableCell style={{ textAlign: 'center' }}>{this.props.num}</TableCell>
         <TableCell>
-        <Link to={`/View/${this.props.num}`} style={{ textDecoration: 'none', color: 'black', cursor: 'pointer' }}>
-          {this.props.title}
+          <Link to={`/View/${this.props.num}`} style={{ textDecoration: 'none', color: 'black', cursor: 'pointer' }}>
+            {this.props.title}
           </Link>
         </TableCell>
         <TableCell>{this.props.author}</TableCell>
