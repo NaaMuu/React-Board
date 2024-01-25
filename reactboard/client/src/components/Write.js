@@ -7,17 +7,8 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
-import { withStyles } from '@material-ui/core/styles';
+import withStyles from './withStyles';
 import { Link } from 'react-router-dom';
-
-const styles = theme => ({
-  root: {
-    width: 800,
-    marginTop: theme.spacing(3),
-    margin: 'auto',
-    overflowX: 'auto',
-  }
-});
 
 class Write extends React.Component {
   constructor(props) {
@@ -84,8 +75,8 @@ class Write extends React.Component {
           <Table>
             <TableHead>
               <TableRow>
-                <TextField label="제목" type="text" name="title" value={this.state.title} onChange={this.handleValueChange} style={{width:'50%'}}/><br/>
                 <TextField label="이름" type="text" name="author" value={this.state.author} onChange={this.handleValueChange} style={{width:'20%'}}/><br/>
+                <TextField label="제목" type="text" name="title" value={this.state.title} onChange={this.handleValueChange} style={{width:'50%'}}/><br/>
                 <TextField label="내용" name="content" value={this.state.content} onChange={this.handleValueChange} multiline rows={10} style={{width:'50%'}} /><br/>
               </TableRow>
             </TableHead>
@@ -102,4 +93,4 @@ class Write extends React.Component {
   }
 }
 
-export default withStyles(styles)(Write);
+export default withStyles(Write);

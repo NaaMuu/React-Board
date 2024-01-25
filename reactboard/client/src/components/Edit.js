@@ -7,29 +7,10 @@ import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = theme => ({
-  root: {
-    width: 800,
-    marginTop: theme.spacing(3),
-    margin: 'auto',
-    overflowX: "auto"
-  }
-});
+import Timestamp from './Timestamp';
+import withStyles from './withStyles';
 
 const Edit = (props) => {
-  const w_timestamp = (timestamp) => {
-    const dateObject = new Date(timestamp);
-    return dateObject.toLocaleString('ko-KR', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-  
   const { num } = useParams();
   const [postData, setPostData] = useState({});
 
@@ -84,10 +65,10 @@ const Edit = (props) => {
           <TableHead>
             <TableRow>
               연번 : <TextField name="num" value={postData.num} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
+              게시일 : <TextField name="w_time" value={Timestamp(postData.w_time)} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
               작성자 : <TextField name="author" value={postData.author} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
-              게시일 : <TextField name="w_time" value={w_timestamp(postData.w_time)} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
-              새로운 제목 : <TextField name="title" value={postData.title} onChange={handleValueChange} /><br />
-              새로운 내용 : <TextField name="content" value={postData.content} onChange={handleValueChange} /><br />
+              새로운 제목 : <TextField name="title" value={postData.title} onChange={handleValueChange} style={{width:'50%'}}/><br />
+              새로운 내용 : <TextField name="content" value={postData.content} onChange={handleValueChange}  multiline rows={10} style={{width:'50%'}}/><br />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -108,4 +89,4 @@ const Edit = (props) => {
   );
 };
 
-export default withStyles(styles)(Edit);
+export default withStyles(Edit);
