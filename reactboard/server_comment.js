@@ -41,7 +41,9 @@ const mysql = require('mysql2'); /*
 
 // MySQL 데이터베이스와 연결하기 위한 Connection Pool 생성
 const pool = mysql.createPool({
-  connectionLimit: 10,
+  connectionLimit: 10, /*
+  - MySQL 연결 풀에서 동시에 유지할 수 있는 최대 연결 수
+  - 연결 풀은 애플리케이션이 데이터베이스에 연결할 때마다 매번 새로운 연결을 만드는 대신, 이미 만들어진 연결을 재사용하는 기능을 제공 */
   host: conf.host,
   port: conf.port,
   user: conf.user,
@@ -59,7 +61,8 @@ const pool = mysql.createPool({
 // API 엔드포인트 정의 및 구현
 // /api/users 경로로 들어오는 GET 요청에 대한 핸들러
 app.get('/api/users', (req, res) => {
-  pool.query("SELECT * FROM posts", (err, rows) => {
+  const query = "SELECT * FROM posts";
+  pool.query(query, (err, rows, fields) => {
     res.send(rows);
   });
 }); /*
@@ -69,24 +72,20 @@ app.get('/api/users', (req, res) => {
 // /api/users/:num 경로로 들어오는 GET 요청에 대한 핸들러
 app.get('/api/users/:num', (req, res) => {
   const num = req.params.num;
-  pool.query("SELECT * FROM posts WHERE num = ?", [num], (err, rows) => {
-    res.send(rows);
+  const query = 'SELECT * FROM posts WHERE num = ?';
+  pool.query(query, [num], (err, rows, fields) => {
+    if (rows && rows.length > 0) {
+      res.json(rows[0]);
+    } else {
+      res.json(err);
+    }
   });
 }); /*
 - :num은 동적인 URL 파라미터로, 실제 요청된 URL에서 해당 부분의 값을 req.params.num을 통해 가져옴
 - 데이터베이스의 posts 테이블에서 해당하는 num 값에 해당하는 글을 조회한 뒤, 결과를 클라이언트에게 전송
 - res.send(rows)를 통해 데이터베이스 쿼리 결과인 rows를 클라이언트에게 응답으로 전송
-
-+ DB의 데이터가 존재하지 않거나 0이 될 수 있는 경우 if문을 사용하여 에러 검출 가능(rows 대신 results 사용)
-pool.query(query, [num], (err, results) => {
-  if (results && results.length > 0) {
-    res.json(results[0]);
-  } else {
-    res.status(404).json({ err: 'Not Found' });
-  }
-});
 - 만약 결과가 있고, 결과 배열의 길이가 1 이상이면 결과 배열의 첫 번째 항목을 JSON 형태로 클라이언트에게 응답으로 전송
-- 결과가 없거나 배열의 길이가 0인 경우 404 상태 코드와 에러 메시지를 JSON 형태로 클라이언트에게 응답으로 전송
+- 에러 발생 시, 에러 메시지를 JSON 형태로 클라이언트에게 응답으로 전송
 
 + res.send(results): 데이터의 타입에 따라 적절한 방식으로 클라이언트에게 응답으로 전송
 - 데이터가 문자열이면 문자열로, 객체나 배열이면 JSON 형태로 클라이언트에게 전송됨.
@@ -107,7 +106,8 @@ pool.query(query, [num], (err, results) => {
 app.post('/api/users', (req, res) => {
   const { title, author, content } = req.body;
   const writeData = [title, author, content]; // MySQL 데이터베이스에 추가할 데이터 배열로 정의
-  pool.query("INSERT INTO posts (title, author, content, w_time) VALUES (?, ?, ?, NOW())", writeData, (err, rows) => {
+  const query = "INSERT INTO posts (title, author, content, w_time) VALUES (?, ?, ?, NOW())";
+  pool.query(query, writeData, (err, rows, fields) => {
     res.send(rows);
   });
 }); /*
@@ -118,10 +118,12 @@ app.post('/api/users', (req, res) => {
 app.patch('/api/users/:num', (req, res) => {
   const num = req.params.num;
   const updateData = req.body; // post와는 다르게 배열로 정의하지 않음, 밑의 주석은 배열로 정의했을 경우
-  pool.query('UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?', [updateData.title, updateData.content, num], (err, rows) => { /*
+  const query = "UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?";
+  pool.query(query, [updateData.title, updateData.content, num], (err, rows, fields) => { /*
   const { title, content } = req.body;
   const updateData = [title, content, num];
-  pool.query('UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?', updateData, (err, rows) => { */
+  const query = "UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?";
+  pool.query(query, updateData, (err, rows, fields) => { */
     res.send(rows);
   });
 }); /*
@@ -129,7 +131,7 @@ app.patch('/api/users/:num', (req, res) => {
 - pool.query를 사용하여 SQL UPDATE 쿼리를 실행하고, 결과에 따라 성공 또는 실패를 클라이언트에게 응답으로 전송
 
 + HTTP 상태 코드로 에러 검출 가능
-pool.query('UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?', [updateData.title, updateData.content, num], (err, rows) => {
+pool.query('UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?', [updateData.title, updateData.content, num], (err, rows, fields) => {
   if (err) {
     res.status(500).json({ error: 'Internal Server Error' });
   } else {
