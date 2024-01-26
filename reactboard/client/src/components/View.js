@@ -22,7 +22,6 @@ const View = (props) => {
   }, [num]);
 
   const { classes } = props;
-  
   return (
     <div>
       <Paper className={classes.root}>

@@ -27,14 +27,14 @@ class Write extends React.Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    this.Writepost()
+    this.Writepost()   
+    
       .then((response) => {
-        console.log(response.data);
         alert('작성이 완료되었습니다.');
         window.location.href = '/';
       })
       .catch((error) => {
-        console.error('Error during Writepost:', error);
+        console.error('Write/handleFormSubmit/this.Writepost()/Error', error);
       });
   };
 
@@ -46,26 +46,11 @@ class Write extends React.Component {
     formData.append('content', this.state.content);
     const config = {
       headers: {
-        'content-type': 'application/json',
+        'content-type': 'application/json', // 'content-type': 'multipart/form-data'
       },
     };
     return axios.post(url, formData, config);
   };
-
-  // Writepost = () => {
-  //   const url = '/api/users';
-  //   const data = {
-  //     title: this.state.title,
-  //     content: this.state.content,
-  //     author: this.state.author
-  //   };
-  //   const config = {
-  //     headers: {
-  //       'content-type': 'multipart/form-data'
-  //     }
-  //   };
-  //   return axios.post(url, data, config);
-  // }
 
   render() {
     const { classes } = this.props;

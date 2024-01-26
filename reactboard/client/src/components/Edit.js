@@ -41,23 +41,22 @@ const Edit = (props) => {
     })
     .then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`에러발생: ${response.status}`);
       }
       return response.json();
     })
     .then(updatedData => {
-      console.log('Data updated successfully:', updatedData);
+      console.log('업데이트된 데이터: ', updatedData);
       setPostData(updatedData);
       alert('게시글이 업데이트되었습니다.');
     })
     .catch(error => {
-      console.error('Error updating data:', error);
+      console.error('에러발생: ', error);
       alert('게시글 업데이트에 실패했습니다.');
     });
   };
   
   const { classes } = props;
-
   return (
     <div>
       <Paper className={classes.root}>
