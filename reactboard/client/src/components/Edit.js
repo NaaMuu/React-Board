@@ -32,6 +32,11 @@ const Edit = (props) => {
       content: postData.content
     };
   
+    if (postData.title.length > 20 || postData.title.length === 0 || postData.content.length === 0) {
+      alert('제목은 1자 이상 20자 이하, 내용은 1자 이상이어야 합니다.');
+      return;
+    }
+  
     fetch(`/api/users/${num}`, {
       method: 'PATCH',
       headers: {
@@ -39,21 +44,21 @@ const Edit = (props) => {
       },
       body: JSON.stringify(newData),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`에러발생: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(updatedData => {
-      console.log('업데이트된 데이터: ', updatedData);
-      setPostData(updatedData);
-      alert('게시글이 업데이트되었습니다.');
-    })
-    .catch(error => {
-      console.error('에러발생: ', error);
-      alert('게시글 업데이트에 실패했습니다.');
-    });
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`에러발생: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(updatedData => {
+        setPostData(updatedData);
+        alert('게시글이 업데이트되었습니다.');
+        window.location.href = `/View/${postData.num}`;
+      })
+      .catch(error => {
+        console.error('에러발생: ', error);
+        alert('게시글 업데이트에 실패했습니다.');
+      });
   };
   
   const { classes } = props;
@@ -71,11 +76,7 @@ const Edit = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            <Link to={`/View/${postData.num}`}>
-              <Button variant="contained" color="primary" onClick={handleUpdate}>
-                수정완료
-              </Button>
-            </Link>
+            <Button variant="contained" color="primary" onClick={handleUpdate}>수정완료</Button>
             <Link to={`/View/${postData.num}`}>
               <Button variant="outlined" color="primary">
                 취소

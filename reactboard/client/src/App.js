@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 
 const styles = theme => ({
   root: {
-    width: 800,
+    width: 960,
     marginTop: theme.spacing(3),
     margin: 'auto',
     overflowX: 'auto'
@@ -58,6 +58,13 @@ class App extends Component {
     return (
       <div>
         <Paper className={classes.root}>
+          <div style={{ float: 'right', marginRight: '10px'}}>
+            <Link to="/Write">
+              <Button className={classes.button} variant="contained" color="primary">
+                게시글 작성하기
+              </Button>
+            </Link>
+          </div>
           <Table>
             <TableHead>
               <TableRow>
@@ -82,11 +89,6 @@ class App extends Component {
             </TableBody>
           </Table>
         </Paper>
-        <Link to="/Write">
-          <Button className={classes.button} variant="contained" color="primary">
-            게시글 작성하기
-          </Button>
-        </Link>
       </div>
     );
   }

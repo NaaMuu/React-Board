@@ -31,18 +31,14 @@ app.get('/api/users/:num', (req, res) => {
   const num = req.params.num;
   const query = 'SELECT * FROM posts WHERE num = ?';
   pool.query(query, [num], (err, rows, fields) => {
-    if (rows && rows.length > 0) {
       res.json(rows[0]);
-    } else {
-      res.json(err);
-    }
   });
 });
 
 app.post('/api/users', (req, res) => {
-  const { title, author, content } = req.body;
-  const writeData = [title, author, content];
-  const query = "INSERT INTO posts (title, author, content, w_time) VALUES (?, ?, ?, NOW())";
+  const { title, author, content, pw } = req.body;
+  const writeData = [title, author, content, pw];
+  const query = "INSERT INTO posts (title, author, content, w_time, pw) VALUES (?, ?, ?, NOW(), ?)";
   pool.query(query, writeData, (err, rows, fields) => {
     res.send(rows);
   });
@@ -53,6 +49,14 @@ app.patch('/api/users/:num', (req, res) => {
   const updateData = req.body;
   const query = "UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?";
   pool.query(query, [updateData.title, updateData.content, num], (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+app.delete('/api/user/:num', (req, res) => {
+  const num = req.params.num;
+  const quert = "DELETE FROM posts WHERE num = ?";
+  pool.query(quert, [num], (err, rows, fields) => {
     res.send(rows);
   });
 });
