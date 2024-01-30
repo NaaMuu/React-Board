@@ -24,7 +24,7 @@ const View = (props) => {
   const deletePost = () => {
     const url = `/api/users/${num}`;
     fetch(url, {
-      method: 'DELETE'
+      method: 'DELETE',
     })
       .then(response => {
         if (response.ok) {

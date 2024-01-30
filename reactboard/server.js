@@ -53,10 +53,10 @@ app.patch('/api/users/:num', (req, res) => {
   });
 });
 
-app.delete('/api/user/:num', (req, res) => {
+app.delete('/api/users/:num', (req, res) => {
   const num = req.params.num;
-  const quert = "DELETE FROM posts WHERE num = ?";
-  pool.query(quert, [num], (err, rows, fields) => {
+  const query = "DELETE FROM posts WHERE num = ?";
+  pool.query(query, [num], (err, rows, fields) => {
     res.send(rows);
   });
 });

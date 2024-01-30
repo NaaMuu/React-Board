@@ -1,3 +1,5 @@
+// App.js
+
 import React, { Component } from 'react';
 import List from './components/List';
 import Paper from '@material-ui/core/Paper';
@@ -10,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import Pagination from './components/Pagination';
 
 const styles = theme => ({
   root: {
@@ -22,7 +25,7 @@ const styles = theme => ({
     margin: theme.spacing(2)
   },
   button: {
-    marginTop: theme.spacing(2)
+    margin: theme.spacing(1)
   }
 });
 
@@ -30,7 +33,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: '',
+      users: null,
+      currentPage: 1,
+      usersPerPage: 10,
       completed: 0
     };
   }
@@ -53,12 +58,25 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
+  handlePageChange = (newPage) => {
+    this.setState({ currentPage: newPage });
+  };
+
   render() {
     const { classes } = this.props;
+    const { users, currentPage, usersPerPage, completed } = this.state;
+
+    const totalUsers = users ? users.length : 0;
+    const totalPages = Math.ceil(totalUsers / usersPerPage);
+
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = users ? users.slice(indexOfFirstUser, indexOfLastUser) : null;
+
     return (
       <div>
         <Paper className={classes.root}>
-          <div style={{ float: 'right', marginRight: '10px'}}>
+          <div style={{ float: 'right', marginRight: '10px' }}>
             <Link to="/Write">
               <Button className={classes.button} variant="contained" color="primary">
                 게시글 작성하기
@@ -75,19 +93,22 @@ class App extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.users ? (
-                this.state.users.map(u => (
+              {currentUsers ? (
+                currentUsers.map(u => (
                   <List key={u.num} num={u.num} title={u.title} author={u.author} w_time={u.w_time} />
                 ))
               ) : (
                 <TableRow>
                   <TableCell colSpan="4" align="center">
-                    <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed} />
+                    <CircularProgress className={classes.progress} variant="determinate" value={completed} />
                   </TableCell>
                 </TableRow>
               )}
             </TableBody>
           </Table>
+          {users && (
+            <Pagination totalPages={totalPages} currentPage={currentPage}onPageChange={this.handlePageChange} />
+          )}
         </Paper>
       </div>
     );
