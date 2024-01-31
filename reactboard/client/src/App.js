@@ -1,5 +1,3 @@
-// App.js
-
 import React, { Component } from 'react';
 import List from './components/List';
 import Paper from '@material-ui/core/Paper';
@@ -33,9 +31,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: null,
+      posts: null,
       currentPage: 1,
-      usersPerPage: 10,
       completed: 0
     };
   }
@@ -54,7 +51,7 @@ class App extends Component {
   componentDidMount() {
     this.timer = setInterval(this.progress, 20);
     this.callApi()
-      .then(res => this.setState({ users: res }))
+      .then(res => this.setState({ posts: res }))
       .catch(err => console.log(err));
   }
 
@@ -64,14 +61,12 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    const { users, currentPage, usersPerPage, completed } = this.state;
-
-    const totalUsers = users ? users.length : 0;
-    const totalPages = Math.ceil(totalUsers / usersPerPage);
-
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = users ? users.slice(indexOfFirstUser, indexOfLastUser) : null;
+    const { posts, currentPage, completed } = this.state;
+    
+    const totalPage = Math.ceil((posts ? posts.length : 0) / 10);
+    const lastPostPage = currentPage * 10;
+    const firstPostPage = lastPostPage - 10;
+    const currentPostPage = posts ? posts.slice(firstPostPage, lastPostPage) : null;
 
     return (
       <div>
@@ -93,8 +88,8 @@ class App extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentUsers ? (
-                currentUsers.map(u => (
+              {currentPostPage ? (
+                currentPostPage.map(u => (
                   <List key={u.num} num={u.num} title={u.title} author={u.author} w_time={u.w_time} />
                 ))
               ) : (
@@ -106,8 +101,8 @@ class App extends Component {
               )}
             </TableBody>
           </Table>
-          {users && (
-            <Pagination totalPages={totalPages} currentPage={currentPage}onPageChange={this.handlePageChange} />
+          {posts && (
+            <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={this.handlePageChange} />
           )}
         </Paper>
       </div>

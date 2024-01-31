@@ -23,20 +23,27 @@ const View = (props) => {
 
   const deletePost = () => {
     const url = `/api/users/${num}`;
-    fetch(url, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        if (response.ok) {
-          alert('삭제가 완료되었습니다.');
-          window.location.href = '/';
-        }
-        else {
-          console.error('View/deletePost/', response.statusText);
-        }
+    const inputPW  = prompt('비밀번호를 입력하세요.');
+    if (!inputPW) { return; }
+    if (postData.pw === inputPW) {
+      fetch(url, {
+        method: 'DELETE',
       })
-      .catch(error => console.error('View/deletePost/', error));
-  };
+        .then(response => {
+          if (response.ok) {
+            alert('삭제가 완료되었습니다.');
+            window.location.href = '/';
+          }
+          else {
+            console.error('View/deletePost/', response.statusText);
+          }
+        })
+        .catch(error => console.error('View/deletePost/', error));
+    }
+    else {
+      alert('비밀번호가 올바르지 않습니다.');
+    }
+  }
 
   const { classes } = props;
   return (
