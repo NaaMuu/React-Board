@@ -1,0 +1,40 @@
+npm install create-react-app _
+-> _
+
+npm install yarn
+
+npm install mysql2
+yarn add mysql2
+
+npm install react-router-dom
+yarn add react-router-dom
+
+npm install axios
+yarn add axios
+
+npm install express
+yarn add express
+
+npm install body-parser
+yarn add body-parser
+
+npm install react-devtools
+yarn add react-devtools
+
+npm install nodemon
+yarn add nodemon
+
+npm install @material-ui/core
+yarn add @material-ui/core
+
+npm install http-proxy-middleware
+yarn add http-proxy-middleware
+
+npm install @babel/plugin-proposal-private-property-in-object
+npm dedupe
+
+git init
+git remote add origin (git address)
+git config --global user.name ""
+git config --global user.email ""
+git push --set-upstream origin master(or main)

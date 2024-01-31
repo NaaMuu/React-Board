@@ -1,0 +1,29 @@
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM posts;
+SET SQL_SAFE_UPDATES = 1;
+ALTER TABLE posts AUTO_INCREMENT = 1;
+INSERT INTO posts (title, content, author, w_time, pw)
+VALUES
+  ('제목1', '내용1', '이름1', NOW(), 111);
+INSERT INTO posts (title, content, author, w_time, pw)
+VALUES
+  ('제목2', '내용2', '이름2', NOW() + INTERVAL 1 DAY, 222),
+  ('제목3', '내용3', '이름3', NOW() + INTERVAL 2 DAY, 333),
+  ('제목4', '내용4', '이름4', NOW() + INTERVAL 3 DAY, 444),
+  ('제목5', '내용5', '이름5', NOW() + INTERVAL 4 DAY, 555),
+  ('제목6', '내용6', '이름6', NOW() + INTERVAL 5 DAY, 666),
+  ('제목7', '내용7', '이름7', NOW() + INTERVAL 6 DAY, 777),
+  ('제목8', '내용8', '이름8', NOW() + INTERVAL 7 DAY, 888),
+  ('제목9', '내용9', '이름9', NOW() + INTERVAL 8 DAY, 999),
+  ('제목10', '내용10', '이름10', NOW() + INTERVAL 9 DAY, 101010),
+  ('제목11', '내용11', '이름11', NOW() + INTERVAL 10 DAY, 111111),
+  ('제목12', '내용12', '이름12', NOW() + INTERVAL 11 DAY, 121212),
+  ('제목13', '내용13', '이름13', NOW() + INTERVAL 12 DAY, 131313),
+  ('제목14', '내용14', '이름14', NOW() + INTERVAL 13 DAY, 141414),
+  ('제목15', '내용15', '이름15', NOW() + INTERVAL 14 DAY, 151515),
+  ('제목16', '내용16', '이름16', NOW() + INTERVAL 15 DAY, 161616),
+  ('제목17', '내용17', '이름17', NOW() + INTERVAL 16 DAY, 171717),
+  ('제목18', '내용18', '이름18', NOW() + INTERVAL 17 DAY, 181818),
+  ('제목19', '내용19', '이름19', NOW() + INTERVAL 18 DAY, 191919),
+  ('제목20', '내용20', '이름20', NOW() + INTERVAL 19 DAY, 202020);
+SELECT * FROM posts;
