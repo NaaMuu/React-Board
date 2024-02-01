@@ -7,7 +7,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import Pagination from './components/Pagination';
@@ -19,9 +18,6 @@ const styles = theme => ({
     margin: 'auto',
     overflowX: 'auto'
   },
-  progress: {
-    margin: theme.spacing(2)
-  },
   button: {
     margin: theme.spacing(1)
   }
@@ -32,15 +28,9 @@ class App extends Component {
     super(props);
     this.state = {
       posts: null,
-      currentPage: 1,
-      completed: 0
+      currentPage: 1
     };
   }
-
-  progress = () => {
-    const { completed } = this.state;
-    this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
-  };
 
   callApi = async () => {
     const response = await fetch('/api/users');
@@ -49,7 +39,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.timer = setInterval(this.progress, 20);
     this.callApi()
       .then(res => this.setState({ posts: res }))
       .catch(err => console.log(err));
@@ -61,7 +50,7 @@ class App extends Component {
 
   render() {
     const { classes } = this.props;
-    const { posts, currentPage, completed } = this.state;
+    const { posts, currentPage } = this.state;
     
     const totalPage = Math.ceil((posts ? posts.length : 0) / 10);
     const lastPostPage = currentPage * 10;
@@ -94,9 +83,7 @@ class App extends Component {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan="4" align="center">
-                    <CircularProgress className={classes.progress} variant="determinate" value={completed} />
-                  </TableCell>
+                  <TableCell colSpan="4" align="center"/>
                 </TableRow>
               )}
             </TableBody>

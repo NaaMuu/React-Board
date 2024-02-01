@@ -55,8 +55,8 @@ const View = (props) => {
               연번 : <TextField name="num" value={postData.num} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
               게시일 : <TextField name="w_time" value={Timestamp(postData.w_time)} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
               작성자 : <TextField name="author" value={postData.author} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
-              제목 : <TextField name="title" value={postData.title} InputProps={{ readOnly: true, disableUnderline: true }} style={{width:'50%'}}/><br />
-              내용 : <TextField name="content" value={postData.content} InputProps={{ readOnly: true, disableUnderline: true }} multiline rows={10} style={{width:'50%'}}/><br />
+              제목 : <TextField name="title" value={postData.title} InputProps={{ readOnly: true, disableUnderline: true }} style={{ width: '50%' }} /><br />
+              내용 : <TextField name="content" value={postData.content} InputProps={{ readOnly: true, disableUnderline: true }} multiline rows={5} style={{ width: '50%', overflowY: 'scroll' }} /><br />
             </TableRow>
           </TableHead>
           <TableBody>
