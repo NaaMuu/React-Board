@@ -53,6 +53,7 @@ app.patch('/api/users/:num', (req, res) => {
   });
 });
 
+// DB측의 트리거를 이용한 삭제 게시글 보관 기능 추가 예정
 app.delete('/api/users/:num', (req, res) => {
   const num = req.params.num;
   const query = "DELETE FROM posts WHERE num = ?";
