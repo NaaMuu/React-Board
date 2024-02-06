@@ -10,39 +10,32 @@ import TableBody from '@material-ui/core/TableBody';
 import Timestamp from './Timestamp';
 import withStyles from './withStyles';
 
-const View = (props) => {
+const DeleteView = (props) => {
   const { num } = useParams();
   const [postData, setPostData] = useState({});
 
   useEffect(() => {
-    fetch(`/api/posts/${num}`)
+    fetch(`/api/delete/${num}`)
       .then(response => response.json())
       .then(data => setPostData(data))
       .catch(error => console.error('Error fetching data:', error));
   }, [num]);
 
-  const deletePost = () => {
-    const url = `/api/posts/${num}`;
-    const inputPW  = prompt('비밀번호를 입력하세요.');
-    if (!inputPW) { return; }
-    if (postData.pw === inputPW) {
-      fetch(url, {
-        method: 'DELETE',
-      })
-        .then(response => {
-          if (response.ok) {
-            alert('삭제가 완료되었습니다.');
-            window.location.href = '/';
-          }
-          else {
-            console.error('View/deletePost/', response.statusText);
-          }
-        })
-        .catch(error => console.error('View/deletePost/', error));
-    }
-    else {
-      alert('비밀번호가 올바르지 않습니다.');
-    }
+  const restorePost = () => {
+    const url = `/api/delete/${num}`;
+    fetch(url, {
+      method: 'DELETE',
+    })
+    .then(response => {
+      if (response.ok) {
+        alert('복원이 완료되었습니다.');
+        window.location.href = '/delete';
+      }
+      else {
+        console.error('DeleteView/', response.statusText);
+      }
+    })
+    .catch(error => console.error('DeleteView/', error));
   }
 
   const { classes } = props;
@@ -54,15 +47,15 @@ const View = (props) => {
             <TableRow>
               연번 : <TextField name="num" value={postData.num} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
               게시일 : <TextField name="w_time" value={Timestamp(postData.w_time)} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
+              삭제일 : <TextField name="d_time" value={Timestamp(postData.d_time)} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
               작성자 : <TextField name="author" value={postData.author} InputProps={{ readOnly: true, disableUnderline: true }} /><br />
               제목 : <TextField name="title" value={postData.title} InputProps={{ readOnly: true, disableUnderline: true }} style={{ width: '50%' }} /><br />
               내용 : <TextField name="content" value={postData.content} InputProps={{ readOnly: true, disableUnderline: true }} multiline rows={5} style={{ width: '50%', overflowY: 'scroll' }} /><br />
             </TableRow>
           </TableHead>
           <TableBody>
-            <Link to={`/Edit/${postData.num}`}><Button variant="contained" color="primary">수정</Button></Link>
-            <Link to="/"><Button variant="outlined" color="primary">취소</Button></Link>
-            <Button variant="contained" color="secondary" onClick={deletePost}>삭제</Button>
+            <Button variant="contained" color="primary" onClick={restorePost}>복원</Button>
+            <Link to="/delete"><Button variant="outlined" color="primary">취소</Button></Link>
           </TableBody>
         </Table>
       </Paper>
@@ -70,4 +63,4 @@ const View = (props) => {
   );
 }
 
-export default withStyles(View);
+export default withStyles(DeleteView);

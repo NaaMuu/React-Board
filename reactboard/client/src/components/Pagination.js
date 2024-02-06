@@ -9,15 +9,15 @@ const Pagination = ({ totalPages, currentPage, onPageChange }) => {
   
   return (
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-      <Button variant="outlined" color="primary" disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} style={{ margin: '4px' }} >
+      <Button variant="outlined" color="primary" disabled={currentPage === 1} onClick={() => onPageChange(currentPage - 1)} style={{ margin: '4px' }}>
         이전
       </Button>
       {pageButtons.map(page => (
-        <Button key={page} variant="outlined" color="primary" onClick={() => onPageChange(page)} disabled={currentPage === page} style={{ margin: '4px' }} >
+        <Button key={page} variant="outlined" color="primary" onClick={() => onPageChange(page)} disabled={currentPage === page} style={{ margin: '4px' }}>
           {page}
         </Button>
       ))}
-      <Button variant="outlined" color="primary" disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} style={{ margin: '4px' }} >
+      <Button variant="outlined" color="primary" disabled={currentPage === totalPages} onClick={() => onPageChange(currentPage + 1)} style={{ margin: '4px' }}>
         다음
       </Button>
     </div>

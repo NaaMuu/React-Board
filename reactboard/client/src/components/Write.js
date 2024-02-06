@@ -47,7 +47,7 @@ handleFormSubmit = (e) => {
 };
 
   Writepost = () => {
-    const url = '/api/users';
+    const url = '/api/posts';
     const formData = new FormData();
     formData.append('title', this.state.title);
     formData.append('pw', this.state.pw);

@@ -7,15 +7,26 @@ CREATE TABLE posts (
   pw VARCHAR(100)
 );
 
+CREATE TABLE d_posts (
+  num INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(100),
+  content TEXT,
+  author VARCHAR(100),
+  d_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  pw VARCHAR(100)
+);
+
 SET SQL_SAFE_UPDATES = 0;
 DELETE FROM posts;
+DELETE FROM d_posts;
 SET SQL_SAFE_UPDATES = 1;
+
 ALTER TABLE posts AUTO_INCREMENT = 1;
+ALTER TABLE d_posts AUTO_INCREMENT = 1;
+
 INSERT INTO posts (title, content, author, w_time, pw)
 VALUES
-  ('제목1', '내용1', '이름1', NOW(), 111);
-INSERT INTO posts (title, content, author, w_time, pw)
-VALUES
+  ('제목1', '내용1', '이름1', NOW(), 111),
   ('제목2', '내용2', '이름2', NOW() + INTERVAL 1 DAY, 222),
   ('제목3', '내용3', '이름3', NOW() + INTERVAL 2 DAY, 333),
   ('제목4', '내용4', '이름4', NOW() + INTERVAL 3 DAY, 444),
@@ -35,4 +46,31 @@ VALUES
   ('제목18', '내용18', '이름18', NOW() + INTERVAL 17 DAY, 181818),
   ('제목19', '내용19', '이름19', NOW() + INTERVAL 18 DAY, 191919),
   ('제목20', '내용20', '이름20', NOW() + INTERVAL 19 DAY, 202020);
+
 SELECT * FROM posts;
+SELECT * FROM d_posts;
+
+DELIMITER //
+CREATE TRIGGER delete_posts
+BEFORE DELETE
+ON posts
+FOR EACH ROW
+BEGIN
+    INSERT INTO d_posts (title, author, content, w_time, pw, d_time) VALUES (OLD.title, OLD.author, OLD.content, OLD.w_time, OLD.pw, NOW());
+END;posts
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER restore_posts
+BEFORE DELETE
+ON d_posts
+FOR EACH ROW
+BEGIN
+    INSERT INTO posts (title, author, content, w_time, pw) VALUES (OLD.title, OLD.author, OLD.content, OLD.w_time, OLD.pw);
+END;
+//
+DELIMITER ;
+
+SET GLOBAL log_bin_trust_function_creators = 1;
+SET GLOBAL log_bin_trust_function_creators = 0;

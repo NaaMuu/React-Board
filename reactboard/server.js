@@ -20,14 +20,14 @@ const pool = mysql.createPool({
   database: conf.database
 });
 
-app.get('/api/users', (req, res) => {
+app.get('/api/posts', (req, res) => {
   const query = "SELECT * FROM posts";
   pool.query(query, (err, rows, fields) => {
     res.send(rows);
   });
 });
 
-app.get('/api/users/:num', (req, res) => {
+app.get('/api/posts/:num', (req, res) => {
   const num = req.params.num;
   const query = 'SELECT * FROM posts WHERE num = ?';
   pool.query(query, [num], (err, rows, fields) => {
@@ -35,7 +35,7 @@ app.get('/api/users/:num', (req, res) => {
   });
 });
 
-app.post('/api/users', (req, res) => {
+app.post('/api/posts', (req, res) => {
   const { title, author, content, pw } = req.body;
   const writeData = [title, author, content, pw];
   const query = "INSERT INTO posts (title, author, content, w_time, pw) VALUES (?, ?, ?, NOW(), ?)";
@@ -44,7 +44,7 @@ app.post('/api/users', (req, res) => {
   });
 });
 
-app.patch('/api/users/:num', (req, res) => {
+app.patch('/api/posts/:num', (req, res) => {
   const num = req.params.num;
   const updateData = req.body;
   const query = "UPDATE posts SET title=?, content=?, w_time=NOW() WHERE num=?";
@@ -53,10 +53,32 @@ app.patch('/api/users/:num', (req, res) => {
   });
 });
 
-// DB측의 트리거를 이용한 삭제 게시글 보관 기능 추가 예정
-app.delete('/api/users/:num', (req, res) => {
+app.delete('/api/posts/:num', (req, res) => {
   const num = req.params.num;
   const query = "DELETE FROM posts WHERE num = ?";
+  pool.query(query, [num], (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+app.get('/api/delete', (req, res) => {
+  const query = "SELECT * FROM d_posts";
+  pool.query(query, (err, rows, fields) => {
+    res.send(rows);
+  });
+});
+
+app.get('/api/delete/:num', (req, res) => {
+  const num = req.params.num;
+  const query = 'SELECT * FROM d_posts WHERE num = ?';
+  pool.query(query, [num], (err, rows, fields) => {
+      res.json(rows[0]);
+  });
+});
+
+app.delete('/api/delete/:num', (req, res) => {
+  const num = req.params.num;
+  const query = "DELETE FROM d_posts WHERE num = ?";
   pool.query(query, [num], (err, rows, fields) => {
     res.send(rows);
   });

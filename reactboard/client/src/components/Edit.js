@@ -15,7 +15,7 @@ const Edit = (props) => {
   const [postData, setPostData] = useState({});
 
   useEffect(() => {
-    fetch(`/api/users/${num}`)
+    fetch(`/api/posts/${num}`)
       .then(response => response.json())
       .then(data => setPostData(data))
       .catch(error => console.error('Error fetching data:', error));
@@ -37,7 +37,7 @@ const Edit = (props) => {
       return;
     }
   
-    fetch(`/api/users/${num}`, {
+    fetch(`/api/posts/${num}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

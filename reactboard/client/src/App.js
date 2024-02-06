@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   callApi = async () => {
-    const response = await fetch('/api/users');
+    const response = await fetch('/api/posts');
     const body = await response.json();
     return body;
   };
