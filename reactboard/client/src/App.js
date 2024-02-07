@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import List from './components/List';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import Pagination from './components/Pagination';
+// import TableHead from '@material-ui/core/TableHead';
+// import TableRow from '@material-ui/core/TableRow';
+// import TableBody from '@material-ui/core/TableBody';
+// import TableCell from '@material-ui/core/TableCell';
+// import Pagination from './components/Pagination';
 
 const styles = theme => ({
   root: {
@@ -24,38 +24,38 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      posts: null,
-      currentPage: 1
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     posts: null,
+  //     currentPage: 1
+  //   };
+  // }
 
-  callApi = async () => {
-    const response = await fetch('/api/posts');
-    const body = await response.json();
-    return body;
-  };
+  // callApi = async () => {
+  //   const response = await fetch('/api/posts');
+  //   const body = await response.json();
+  //   return body;
+  // };
 
-  componentDidMount() {
-    this.callApi()
-      .then(res => this.setState({ posts: res }))
-      .catch(err => console.log(err));
-  }
+  // componentDidMount() {
+  //   this.callApi()
+  //     .then(res => this.setState({ posts: res }))
+  //     .catch(err => console.log(err));
+  // }
 
-  handlePageChange = (newPage) => {
-    this.setState({ currentPage: newPage });
-  };
+  // handlePageChange = (newPage) => {
+  //   this.setState({ currentPage: newPage });
+  // };
 
   render() {
     const { classes } = this.props;
-    const { posts, currentPage } = this.state;
+    // const { posts, currentPage } = this.state;
     
-    const totalPage = Math.ceil((posts ? posts.length : 0) / 10);
-    const lastPostPage = currentPage * 10;
-    const firstPostPage = lastPostPage - 10;
-    const currentPostPage = posts ? posts.slice(firstPostPage, lastPostPage) : null;
+    // const totalPage = Math.ceil((posts ? posts.length : 0) / 10);
+    // const lastPostPage = currentPage * 10;
+    // const firstPostPage = lastPostPage - 10;
+    // const currentPostPage = posts ? posts.slice(firstPostPage, lastPostPage) : null;
 
     return (
       <div>
@@ -68,7 +68,8 @@ class App extends Component {
             </Link>
           </div>
           <Table>
-            <TableHead>
+            <List/>
+            {/* <TableHead>
               <TableRow>
                 <TableCell style={{ width: '10%', fontWeight: 'bold', textAlign: 'center' }}>연번</TableCell>
                 <TableCell style={{ fontWeight: 'bold', textAlign: 'center' }}>제목</TableCell>
@@ -86,11 +87,11 @@ class App extends Component {
                   <TableCell colSpan="4" align="center"/>
                 </TableRow>
               )}
-            </TableBody>
+            </TableBody> */}
           </Table>
-          {posts && (
+          {/* {posts && (
             <Pagination totalPages={totalPage} currentPage={currentPage} onPageChange={this.handlePageChange} />
-          )}
+          )} */}
         </Paper>
       </div>
     );

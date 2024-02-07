@@ -79,4 +79,4 @@ class Delete extends Component {
 
 export default withStyles(Delete);
 
-  // http://localhost:3000/delete
+// http://localhost:3000/delete
