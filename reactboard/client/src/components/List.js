@@ -11,15 +11,16 @@ import { Link } from 'react-router-dom';
 import Pagination from './Pagination';
 
 class List extends Component {
-  constructor(props) {
+  constructor(props) { // 값들의 초기 상태
     super(props);
     this.state = {
       posts: [],
-      currentPage: 1
+      currentPage: 1 // 게시판 리스트의 현재 페이지
     };
   }
 
   componentDidMount() {
+    // 컴포넌트가 마운트된 후, 서버에서 게시글 목록을 가져오는 fetchPosts 메서드를 호출
     this.fetchPosts();
   }
 
@@ -31,6 +32,7 @@ class List extends Component {
       })
       .catch((error) => console.error('Error fetching posts:', error));
   };
+
   handlePageChange = (newPage) => {
     this.setState({ currentPage: newPage });
   };
@@ -59,7 +61,11 @@ class List extends Component {
             {currentPostPage.map((post) => (
               <TableRow key={post.num}>
                 <TableCell style={{ textAlign: 'center' }}>{post.num}</TableCell>
-                <TableCell><Link to={`/View/${post.num}`} style={{ textDecoration: 'none', color: 'black', cursor: 'pointer' }}>{post.title}</Link></TableCell>
+                <TableCell>
+                  <Link to={`/View/${post.num}`} style={{ textDecoration: 'none', color: 'black', cursor: 'pointer' }}>
+                    {post.title}
+                  </Link>
+                </TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{post.author}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{Timestamp(post.w_time)}</TableCell>
               </TableRow>

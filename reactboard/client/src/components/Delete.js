@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import Pagination from './Pagination';
 
 class Delete extends Component {
-  constructor(props) {
+  constructor(props) { // 삭제할 값들의 초기 상태
     super(props);
     this.state = {
       deletedPosts: [],
@@ -20,6 +20,7 @@ class Delete extends Component {
   }
 
   componentDidMount() {
+    // 컴포넌트가 마운트된 후, fetchDeletePosts 메서드를 호출
     this.fetchDeletePosts();
   }
 
@@ -57,11 +58,15 @@ class Delete extends Component {
               <TableCell style={{ width: '24%', fontWeight: 'bold', textAlign: 'center' }}>삭제일</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {currentPostPage.map((post) => (
               <TableRow key={post.num}>
                 <TableCell style={{ textAlign: 'center' }}>{post.num}</TableCell>
-                <TableCell><Link to={`/delete/${post.num}`} style={{ textDecoration: 'none', color: 'black', cursor: 'pointer' }}>{post.title}</Link></TableCell>
+                <TableCell>
+                  <Link to={`/delete/${post.num}`}
+                  style={{ textDecoration: 'none', color: 'black', cursor: 'pointer' }}>{post.title}</Link>
+                </TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{post.author}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{Timestamp(post.w_time)}</TableCell>
                 <TableCell style={{ textAlign: 'center' }}>{Timestamp(post.d_time)}</TableCell>

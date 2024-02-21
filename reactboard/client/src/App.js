@@ -77,7 +77,7 @@ class App extends Component {
                 <TableCell style={{ width: '24%', fontWeight: 'bold', textAlign: 'center' }}>게시일</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
+              <TableBody>
               {currentPostPage ? (
                 currentPostPage.map(u => (
                   <List key={u.num} num={u.num} title={u.title} author={u.author} w_time={u.w_time} />
